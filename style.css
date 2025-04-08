@@ -45,7 +45,7 @@ body {
 header {
   background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
   color: var(--white);
-  padding: 1.5rem 0;
+  padding: 0.8rem 0; /* Reduced from 1.5rem */
   text-align: center;
   box-shadow: var(--shadow);
   position: sticky;
@@ -68,17 +68,17 @@ header {
 header h1 {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
-  font-size: 2.25rem;
+  font-size: 1.8rem; /* Reduced from 2.25rem */
   display: flex;
   align-items: center;
   justify-content: center;
   letter-spacing: 0.5px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem; /* Reduced from 0.5rem */
 }
 
 #logo {
-  height: 2.75rem;
-  margin-right: 0.75rem;
+  height: 2rem;
+  margin-right: 0.5rem;
   border-radius: 50%;
   border: 2px solid var(--white);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -827,5 +827,78 @@ footer p {
   #sidebar {
     width: 85%;
     right: -85%;
+  }
+}
+
+/*------------------*/
+/* Recipe Popup Styles - Fixed Version */
+.recipe-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--white);
+  z-index: 9999;
+  overflow-y: auto; /* This already looks good */
+  padding: 0;
+  margin: 0;
+}
+
+.popup-content {
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 80px 20px 40px;
+  position: relative;
+  /* Remove any height constraints that might prevent scrolling */
+  min-height: auto; /* Changed from min-height: 100vh if that was causing issues */
+}
+
+/* Fix the close button to make sure it's always accessible */
+.close-popup {
+  position: fixed; /* Already fixed which is good */
+  top: 20px;
+  right: 20px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--primary-dark);
+  background: rgba(255, 255, 255, 0.95); /* Made slightly more opaque */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001; /* Increased to be above any other elements */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Enhanced shadow for visibility */
+  transition: var(--transition);
+  border: 2px solid var(--primary-dark);
+}
+
+/* Add a safe area at the top of the popup content to ensure scrolling works */
+.recipe-popup .recipe-title {
+  padding-top: 20px;
+  margin-top: 0;
+  /* Rest of existing styles */
+  font-size: 2.5rem;
+  color: var(--primary-dark);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid var(--primary-light);
+}
+
+/* Additional fix for mobile - ensure scrolling works properly */
+@media (max-width: 768px) {
+  .popup-content {
+    padding-top: 70px; /* Increased to ensure content starts below the fixed close button */
+    width: 95%;
+  }
+  
+  /* Make sure content doesn't start under the close button */
+  .recipe-popup .recipe-title {
+    margin-top: 10px;
   }
 }
