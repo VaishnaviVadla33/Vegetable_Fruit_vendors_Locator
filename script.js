@@ -183,3 +183,270 @@ document.addEventListener('DOMContentLoaded', function() {
         nextSet();
     }, 5000);
 });
+
+// Recipe Data - Authentic South Indian Recipes
+const recipes = {
+    vegetarian: [
+        {
+            id: 'masala-dosa',
+            title: 'Masala Dosa',
+            image: 'images/food1.jpeg',
+            description: 'Crispy rice and lentil crepe filled with spiced potato filling',
+            ingredients: [
+                '2 cups rice',
+                '1 cup urad dal (black gram)',
+                '1/2 tsp fenugreek seeds',
+                '4 medium potatoes (boiled and mashed)',
+                '1 onion (finely chopped)',
+                '2 green chilies (chopped)',
+                '1/2 tsp mustard seeds',
+                '1/2 tsp turmeric powder',
+                '1 sprig curry leaves',
+                'Salt to taste',
+                'Oil for cooking'
+            ],
+            method: [
+                'Soak rice, urad dal and fenugreek seeds for 6 hours',
+                'Grind to a smooth batter and ferment overnight',
+                'For filling, heat oil, add mustard seeds, curry leaves, onions and green chilies',
+                'Add turmeric and mashed potatoes, mix well and cook for 5 minutes',
+                'Spread batter on hot tawa to make thin dosa',
+                'Place potato filling in center and fold',
+                'Serve hot with coconut chutney and sambar'
+            ],
+            videoUrl: 'https://www.youtube.com/embed/9saTcTm4UQw'
+        }
+    ],
+    desserts: [
+        {
+            id: 'mysore-pak',
+            title: 'Mysore Pak',
+            image: 'images/dessert1.jpeg',
+            description: 'Traditional sweet made with gram flour, ghee and sugar',
+            ingredients: [
+                '1 cup besan (gram flour)',
+                '1 cup ghee',
+                '1 cup sugar',
+                '1/2 cup water',
+                '1/4 tsp cardamom powder'
+            ],
+            method: [
+                'Heat ghee in a pan and keep warm',
+                'In another pan, make sugar syrup with water until one-string consistency',
+                'Slowly add besan to the syrup while stirring continuously',
+                'Add ghee gradually while stirring to avoid lumps',
+                'Keep stirring until the mixture leaves the sides of the pan',
+                'Pour into greased tray and cut into pieces when slightly cooled',
+                'Let it set completely before serving'
+            ],
+            videoUrl: 'https://www.youtube.com/embed/Np2jiYSd6aE'
+        }
+    ],
+    nonVegetarian: [
+        {
+            id: 'chicken-biryani',
+            title: 'Hyderabadi Chicken Biryani',
+            image: 'images/nonveg1.jpeg',
+            description: 'Flavorful rice dish with marinated chicken and spices',
+            ingredients: [
+                '500g basmati rice',
+                '1kg chicken (cut into pieces)',
+                '2 cups yogurt',
+                '3 onions (sliced)',
+                '2 tomatoes (chopped)',
+                '1 tbsp ginger-garlic paste',
+                '2 green chilies',
+                '1/2 cup mint leaves',
+                '1/2 cup coriander leaves',
+                '1 tsp turmeric',
+                '2 tsp red chili powder',
+                '1 tsp garam masala',
+                '1/2 tsp saffron (soaked in milk)',
+                '4 tbsp ghee',
+                'Salt to taste'
+            ],
+            method: [
+                'Marinate chicken with yogurt, spices, ginger-garlic paste for 2 hours',
+                'Soak rice for 30 minutes and parboil with whole spices',
+                'Fry onions until golden brown',
+                'Layer half the rice in heavy bottomed vessel',
+                'Add chicken masala, fried onions, mint and coriander leaves',
+                'Top with remaining rice and saffron milk',
+                'Seal with dough and cook on dum (low heat) for 30 minutes',
+                'Mix gently before serving with raita'
+            ],
+            videoUrl: 'https://www.youtube.com/embed/PmqdA05OXuI'
+        }
+    ]
+};
+
+// Recipe Popup Elements
+
+
+// Recipe Popup CSS
+const style = document.createElement('style');
+style.textContent = `
+    .recipe-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.8);
+        z-index: 1000;
+        overflow-y: auto;
+    }
+    .popup-content {
+        background-color: white;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 8px;
+        position: relative;
+    }
+    .close-popup {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 30px;
+        cursor: pointer;
+    }
+    .recipe-image {
+        width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+    .recipe-details {
+        margin-top: 20px;
+    }
+    .ingredients, .method {
+        margin: 15px 0;
+        padding-left: 20px;
+    }
+    .video-container {
+        margin-top: 20px;
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+    }
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    @media (max-width: 600px) {
+        .popup-content {
+            margin: 20px auto;
+            width: 90%;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Function to show recipe details
+function showRecipeDetails(recipeId, category) {
+    let recipe;
+    
+    // Find the recipe based on category
+    if (category === 'vegetarian') {
+        recipe = recipes.vegetarian.find(r => r.id === recipeId);
+    } else if (category === 'desserts') {
+        recipe = recipes.desserts.find(r => r.id === recipeId);
+    } else if (category === 'nonVegetarian') {
+        recipe = recipes.nonVegetarian.find(r => r.id === recipeId);
+    }
+    
+    if (!recipe) return;
+
+    const popup = document.querySelector('.recipe-popup');
+    popup.querySelector('.recipe-title').textContent = recipe.title;
+    popup.querySelector('.recipe-image').src = recipe.image;
+    popup.querySelector('.recipe-image').alt = recipe.title;
+    
+    const ingredientsList = popup.querySelector('.ingredients');
+    ingredientsList.innerHTML = recipe.ingredients.map(ing => `<li>${ing}</li>`).join('');
+    
+    const methodList = popup.querySelector('.method');
+    methodList.innerHTML = recipe.method.map(step => `<li>${step}</li>`).join('');
+    
+    const iframe = popup.querySelector('iframe');
+    iframe.src = recipe.videoUrl;
+    
+    popup.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// Close popup handler
+document.querySelector('.close-popup').addEventListener('click', () => {
+    document.querySelector('.recipe-popup').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    
+    // Also pause any videos when closing
+    const iframe = document.querySelector('.recipe-popup iframe');
+    if (iframe) {
+        iframe.src = iframe.src; // This resets the iframe
+    }
+});
+// Close when clicking outside content
+document.querySelector('.recipe-popup').addEventListener('click', function(e) {
+    if (e.target === this) {
+        this.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+});
+
+function initializeRecipeCards() {
+    // Get all recipe cards
+    const recipeCards = document.querySelectorAll('.recipe-card');
+    
+    recipeCards.forEach(card => {
+        const recipeId = card.dataset.id;
+        const category = card.dataset.category;
+        
+        // Find the matching recipe
+        let recipe;
+        if (category === 'vegetarian') {
+            recipe = recipes.vegetarian.find(r => r.id === recipeId);
+        } else if (category === 'desserts') {
+            recipe = recipes.desserts.find(r => r.id === recipeId);
+        } else if (category === 'nonVegetarian') {
+            recipe = recipes.nonVegetarian.find(r => r.id === recipeId);
+        }
+        
+        if (recipe) {
+            const btn = card.querySelector('.recipe-btn');
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showRecipeDetails(recipeId, category);
+            });
+            
+            // Make the title clickable
+            const title = card.querySelector('h3');
+            title.style.cursor = 'pointer';
+            title.addEventListener('click', () => {
+                showRecipeDetails(recipeId, category);
+            });
+        }
+    });
+}
+
+// Initialize recipe cards when DOM loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Existing initialization code...
+    initializeRecipeCards();
+    
+    // Make recipe titles clickable too
+    document.querySelectorAll('.recipe-card h3').forEach(title => {
+        title.style.cursor = 'pointer';
+        title.addEventListener('click', function() {
+            const card = this.closest('.recipe-card');
+            const btn = card.querySelector('.recipe-btn');
+            btn.click();
+        });
+    });
+});
