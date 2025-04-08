@@ -174,22 +174,10 @@
                 <div class="recipe-section" id="vegetarian-recipes">
                     <h2>Vegetarian Recipes</h2>
                     <div class="recipe-grid">
-                        <div class="recipe-card">
+                        <div class="recipe-card" data-id="masala-dosa" data-category="vegetarian">
                             <img src="images/food1.jpeg" alt="Masala Dosa">
                             <h3>Masala Dosa</h3>
                             <p>Crispy rice and lentil crepe filled with spiced potato filling</p>
-                            <a href="#" class="recipe-btn">Read More</a>
-                        </div>
-                        <div class="recipe-card">
-                            <img src="images/food2.jpeg" alt="Idli Sambar">
-                            <h3>Idli Sambar</h3>
-                            <p>Steamed rice cakes served with lentil vegetable stew</p>
-                            <a href="#" class="recipe-btn">Read More</a>
-                        </div>
-                        <div class="recipe-card">
-                            <img src="images/food3.jpeg" alt="Vada">
-                            <h3>Medu Vada</h3>
-                            <p>Crispy lentil fritters served with coconut chutney</p>
                             <a href="#" class="recipe-btn">Read More</a>
                         </div>
                     </div>
@@ -198,22 +186,10 @@
                 <div class="recipe-section" id="dessert-recipes">
                     <h2>Desserts Recipes</h2>
                     <div class="recipe-grid">
-                        <div class="recipe-card">
-                            <img src="images/dessert1.jpeg" alt="Mysore Pak">
+                        <div class="recipe-card" data-id="mysore-pak" data-category="desserts">
+                            <img src="images/MysorePak.jpeg" alt="Mysore Pak">
                             <h3>Mysore Pak</h3>
                             <p>Traditional sweet made with gram flour, ghee and sugar</p>
-                            <a href="#" class="recipe-btn">Read More</a>
-                        </div>
-                        <div class="recipe-card">
-                            <img src="images/dessert2.jpeg" alt="Payasam">
-                            <h3>Payasam</h3>
-                            <p>Sweet milk pudding made with vermicelli and nuts</p>
-                            <a href="#" class="recipe-btn">Read More</a>
-                        </div>
-                        <div class="recipe-card">
-                            <img src="images/dessert3.jpeg" alt="Jalebi">
-                            <h3>Jalebi</h3>
-                            <p>Deep-fried sweet soaked in sugar syrup</p>
                             <a href="#" class="recipe-btn">Read More</a>
                         </div>
                     </div>
@@ -223,22 +199,29 @@
                     <h2>Non-Vegetarian Recipes</h2>
                     <div class="recipe-grid">
                         <div class="recipe-card">
-                            <img src="images/nonveg1.jpeg" alt="Chicken Biryani">
-                            <h3>Chicken Biryani</h3>
+                        <!-- In the non-vegetarian section -->
+                        <div class="recipe-card" data-id="chicken-biryani" data-category="nonVegetarian">
+                            <img src="images/chicken_biryani01.jpg" alt="Hyderabadi Chicken Biryani">
+                            <h3>Hyderabadi Chicken Biryani</h3>
                             <p>Flavorful rice dish with marinated chicken and spices</p>
                             <a href="#" class="recipe-btn">Read More</a>
                         </div>
-                        <div class="recipe-card">
-                            <img src="images/nonveg2.jpeg" alt="Fish Curry">
-                            <h3>Fish Curry</h3>
-                            <p>Spicy curry made with fresh fish and coconut milk</p>
-                            <a href="#" class="recipe-btn">Read More</a>
-                        </div>
-                        <div class="recipe-card">
-                            <img src="images/nonveg3.jpeg" alt="Mutton Sukka">
-                            <h3>Mutton Sukka</h3>
-                            <p>Dry-roasted mutton with aromatic spices</p>
-                            <a href="#" class="recipe-btn">Read More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-popup">
+                <div class="popup-content">
+                    <span class="close-popup">&times;</span>
+                    <h2 class="recipe-title"></h2>
+                    <img class="recipe-image" src="" alt="">
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul class="ingredients"></ul>
+                        <h3>Method</h3>
+                        <ol class="method"></ol>
+                        <div class="video-container">
+                            <iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
