@@ -179,9 +179,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('vegetarian-recipes').classList.add('active');
     
     // Start auto slideshow for image sets
-    setInterval(function() {
-        nextSet();
-    }, 5000);
+    //setInterval(function() {
+    //    nextSet();
+    //}, 5000);
 });
 
 // Recipe Data - Authentic South Indian Recipes
@@ -190,7 +190,7 @@ const recipes = {
         {
             id: 'masala-dosa',
             title: 'Masala Dosa',
-            image: 'images/food1.jpeg',
+            image: 'images/masala_dosa.jpg',
             description: 'Crispy rice and lentil crepe filled with spiced potato filling',
             ingredients: [
                 '2 cups rice',
@@ -221,7 +221,7 @@ const recipes = {
         {
             id: 'mysore-pak',
             title: 'Mysore Pak',
-            image: 'images/dessert1.jpeg',
+            image: 'images/MysorePak.jpeg',
             description: 'Traditional sweet made with gram flour, ghee and sugar',
             ingredients: [
                 '1 cup besan (gram flour)',
@@ -246,7 +246,7 @@ const recipes = {
         {
             id: 'chicken-biryani',
             title: 'Hyderabadi Chicken Biryani',
-            image: 'images/nonveg1.jpeg',
+            image: 'images/chicken_biryani01.jpg',
             description: 'Flavorful rice dish with marinated chicken and spices',
             ingredients: [
                 '500g basmati rice',
