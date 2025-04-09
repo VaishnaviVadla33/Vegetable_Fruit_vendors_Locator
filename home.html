@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Veggie & Vittles</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA71T-0pbpgDK6kEzN1tQ3YcabfNhC2r3A"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1><img id="logo" src="images/logo.jpeg" alt="Logo">VENDOR VEGGIE & VITTLES</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showSection('home')" class="active">Home</a></li>
+                    <li><a href="#" onclick="showSection('vendors')">Local Vendors</a></li>
+                    <li><a href="#" onclick="showSection('recipes')">Recipes</a></li>
+                    <li><a href="#" onclick="showSection('grocer-guide')">Grocer Guide</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="box1">
+                <h1>OUR SERVICES</h1>
+                <marquee behavior="scroll" direction="left">
+                    <h2 style="color: #034f1c6c; margin: 0;">OUR SERVICES INCLUDE NAVIGATING LOCAL VEGETABLE VENDORS AND EXPLORING BEST DISHES OF SOUTH INDIA</h2>
+                </marquee>
+                <!-- Image Carousel -->
+                <div class="image-sets">
+                    <!-- First set of images -->
+                    <div class="image-set active" id="image-set1">
+                        <h2>Local Vegetable Vendors</h2>
+                        <div class="images">
+                            <img src="images/vendor1.jpeg" alt="Vendor 1">
+                            <img src="images/vendor2.jpeg" alt="Vendor 2">
+                            <img src="images/vendor3.jpeg" alt="Vendor 3">
+                        </div>
+                    </div>
+                
+                    <!-- Second set of images -->
+                    <div class="image-set" id="image-set2">
+                        <h2>South Indian Cuisines Recipes</h2>
+                        <div class="images">
+                            <img src="images/food1.jpeg" alt="Food 1">
+                            <img src="images/food2.jpeg" alt="Food 2">
+                            <img src="images/food3.jpeg" alt="Food 3">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="container carousel-nav">
+                    <div class="arrow-box">
+                        <a href="#" onclick="prevSet()">
+                            <img class="arrow" src="images/left_arror1.png" alt="Previous">
+                        </a>
+                    </div>
+                    <div class="arrow-box">
+                        <a href="#" onclick="nextSet()">
+                            <img class="arrow" src="images/right_arrow.png" alt="Next">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container center">
+                <div class="box" onclick="showSection('vendors')">
+                    <img src="images/v1.png" alt="Local Vegetable Vendors">
+                    <div class="content">
+                        Local Vegetable Vendors
+                        <p>Find fresh local produce from our vendors.</p>
+                    </div>
+                </div>
+                <div class="box" onclick="showSection('recipes')">
+                    <img src="images/recipe1.png" alt="South Indian Food">
+                    <div class="content">
+                        South Indian Cuisines Recipes
+                        <p>Explore the flavors of South India.</p>
+                    </div>
+                </div>
+                <div class="box" onclick="showSection('grocer-guide')">
+                    <img src="images/map.png" alt="Grocer Guide">
+                    <div class="content">
+                        Grocer Guide
+                        <p>Find local vendors on our interactive map.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Local Vendors Section -->
+        <section id="vendors" class="section">
+            <h2 class="section-title">Local Vegetable Vendors</h2>
+            <div class="vendor-grid">
+                <div class="vendor-card">
+                    <img src="images/vendor1.jpeg" alt="Anjama">
+                    <h3>Anjama</h3>
+                    <p>Location: Padmavathi colony</p>
+                    <p>Contact: 9573069662</p>
+                    <div class="vegetables">
+                        <span>Tomato</span>
+                        <span>Onion</span>
+                        <span>Potato</span>
+                        <span>Cabbage</span>
+                    </div>
+                </div>
+                <div class="vendor-card">
+                    <img src="images/vendor2.jpeg" alt="Nirmala">
+                    <h3>Nirmala</h3>
+                    <p>Location: Venkateshwara colony</p>
+                    <p>Contact: 8886833609</p>
+                    <div class="vegetables">
+                        <span>Carrot</span>
+                        <span>Spinach</span>
+                        <span>Capsicum</span>
+                    </div>
+                </div>
+                <div class="vendor-card">
+                    <img src="images/vendor3.jpeg" alt="Parupally Chennamma">
+                    <h3>Parupally Chennamma</h3>
+                    <p>Location: Venkateshwara colony</p>
+                    <p>Contact: 9XXXXXXXXX</p>
+                    <div class="vegetables">
+                        <span>Brinjal</span>
+                        <span>Bitter gourd</span>
+                        <span>Ridge gourd</span>
+                    </div>
+                </div>
+                <div class="vendor-card">
+                    <img src="images/fruit_40.jpeg" alt="Krishnama">
+                    <h3>Krishnama</h3>
+                    <p>Location: Venkateshwara colony</p>
+                    <p>Contact: 9XXXXXXXXX</p>
+                    <div class="vegetables">
+                        <span>Apple</span>
+                        <span>Orange</span>
+                        <span>Banana</span>
+                    </div>
+                </div>
+            </div>
+            <div class="center-button">
+                <button onclick="showSection('grocer-guide')">View All Vendors on Map</button>
+            </div>
+        </section>
+
+        <!-- Recipe Book Section -->
+        <section id="recipes" class="section">
+            <h2 class="section-title">South Indian Recipe Book</h2>
+            
+            <div class="recipe-categories">
+                <div class="category">
+                    <h2>Vegetarian</h2>
+                    <div class="options">
+                        <a href="#vegetarian-recipes" onclick="showRecipeSection('vegetarian-recipes')">View Recipes</a>
+                    </div>
+                </div>
+                <div class="category">
+                    <h2>Desserts</h2>
+                    <div class="options">
+                        <a href="#dessert-recipes" onclick="showRecipeSection('dessert-recipes')">View Recipes</a>
+                    </div>
+                </div>
+                <div class="category">
+                    <h2>Non-Vegetarian</h2>
+                    <div class="options">
+                        <a href="#non-vegetarian-recipes" onclick="showRecipeSection('non-vegetarian-recipes')">View Recipes</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-sections">
+                <div class="recipe-section" id="vegetarian-recipes">
+                    <h2>Vegetarian Recipes</h2>
+                    <div class="recipe-grid">
+                        <div class="recipe-card" data-id="masala-dosa" data-category="vegetarian">
+                            <img src="images/food1.jpeg" alt="Masala Dosa">
+                            <h3>Masala Dosa</h3>
+                            <p>Crispy rice and lentil crepe filled with spiced potato filling</p>
+                            <a href="#" class="recipe-btn">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recipe-section" id="dessert-recipes">
+                    <h2>Desserts Recipes</h2>
+                    <div class="recipe-grid">
+                        <div class="recipe-card" data-id="mysore-pak" data-category="desserts">
+                            <img src="images/MysorePak.jpeg" alt="Mysore Pak">
+                            <h3>Mysore Pak</h3>
+                            <p>Traditional sweet made with gram flour, ghee and sugar</p>
+                            <a href="#" class="recipe-btn">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recipe-section" id="non-vegetarian-recipes">
+                    <h2>Non-Vegetarian Recipes</h2>
+                    <div class="recipe-grid">
+                        <div class="recipe-card">
+                        <!-- In the non-vegetarian section -->
+                        <div class="recipe-card" data-id="chicken-biryani" data-category="nonVegetarian">
+                            <img src="images/chicken_biryani01.jpg" alt="Hyderabadi Chicken Biryani">
+                            <h3>Hyderabadi Chicken Biryani</h3>
+                            <p>Flavorful rice dish with marinated chicken and spices</p>
+                            <a href="#" class="recipe-btn">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-popup">
+                <div class="popup-content">
+                    <span class="close-popup">&times;</span>
+                    <h2 class="recipe-title"></h2>
+                    <img class="recipe-image" src="" alt="">
+                    <div class="recipe-details">
+                        <h3>Ingredients</h3>
+                        <ul class="ingredients"></ul>
+                        <h3>Method</h3>
+                        <ol class="method"></ol>
+                        <div class="video-container">
+                            <iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grocer Guide Section -->
+        <section id="grocer-guide" class="section">
+            <h2 class="section-title">Grocer Guide</h2>
+            <div class="map-container">
+                <div class="map-overlay">
+                    <div class="map-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #4CAF50;"></div>
+                            <span>Vegetable Vendors</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #FF5252;"></div>
+                            <span>Fruit Vendors</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="map"></div>
+                <div id="sidebar">
+                    <div id="sidebar-content"></div>
+                    <button id="close-sidebar">×</button>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Vendor Veggie & Vittles - All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
