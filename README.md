@@ -42,3 +42,5 @@ Vendor Veggie & Vittles is a frontend web application designed to help users exp
 3.  Use the top navigation bar to switch between the different sections (Home, Vendors, Recipes, Grocer Guide).
 4.  Explore recipes by category.
 5.  Interact with the map in the "Grocer Guide" section to find vendors and view their details.
+
+Note: If the popup’s close button isn’t working, simply click anywhere outside the popup to exit the dialog.
