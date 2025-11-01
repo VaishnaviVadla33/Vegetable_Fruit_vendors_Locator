@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #034f1c;
+            --accent-color: #FF5252;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --white: #ffffff;
+            --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            box-shadow: var(--box-shadow);
+        }
+        header h1 {
+            margin: 0;
+            color: var(--white);
+        }
+        #admin-logout {
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        .dashboard-section {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+        }
+        h2 {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .user-card {
+            background-color: #e8f5e9;
+        }
+        .user-card h4 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        .user-card p {
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+        .recipe-card {
+            background-color: var(--white);
+        }
+        .recipe-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .recipe-card h3 {
+            margin: 0.5rem 0;
+            color: var(--secondary-color);
+        }
+        .recipe-card p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        .btn-delete {
+            width: 100%;
+            padding: 8px;
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        .btn-delete:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Admin Dashboard</h1>
+        <button id="admin-logout">Logout</button>
+    </header>
+
+    <div class="container">
+        <section class="dashboard-section" id="users-list">
+            <h2>All Users</h2>
+            <div class="grid" id="users-grid">
+                </div>
+        </section>
+
+        <section class="dashboard-section" id="recipes-list">
+            <h2>All Recipes (Manage)</h2>
+            <div class="grid" id="recipes-grid">
+                </div>
+        </section>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <script>
+        // !! IMPORTANT: REPLACE WITH YOUR ACTUAL FIREBASE CONFIG !!
+        const firebaseConfig = {
+            apiKey: "AIzaSyCIjrMGGX6dqNZjRMGRfpoG3xze0gZNbhA",
+            authDomain: "veggievendor01.firebaseapp.com",
+            projectId: "veggievendor01",
+            storageBucket: "veggievendor01.firebasestorage.app",
+            messagingSenderId: "599452585405",
+            appId: "1:599452585405:web:323ec877ed10bb0d4c96d4",
+            measurementId: "G-MG94MY4KJT"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Admin Auth Check
+        document.addEventListener('DOMContentLoaded', () => {
+            const adminUser = JSON.parse(localStorage.getItem('user'));
+            
+            if (!adminUser || adminUser.userType !== 'admin' || adminUser.email !== 'admin@12345gmail.com') {
+                alert('Access Denied');
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Load dashboard data
+            loadAllUsers();
+            loadAllRecipes();
+
+            // Logout listener
+            document.getElementById('admin-logout').addEventListener('click', () => {
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+            });
+        });
+
+        // Load all users from 'users' collection
+        function loadAllUsers() {
+            const grid = document.getElementById('users-grid');
+            grid.innerHTML = 'Loading users...';
+            
+            db.collection('users').get().then(querySnapshot => {
+                grid.innerHTML = '';
+                if (querySnapshot.empty) {
+                    grid.innerHTML = '<p>No users found.</p>';
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const user = doc.data();
+                    const card = document.createElement('div');
+                    card.className = 'card user-card';
+                    card.innerHTML = `
+                        <h4>${user.name}</h4>
+                        <p><strong>Email:</strong> ${user.email}</p>
+                        <p><strong>Type:</strong> ${user.userType}</p>
+                        <p><strong>Verified:</strong> ${user.emailVerified}</p>
+                    `;
+                    grid.appendChild(card);
+                });
+            });
+        }
+
+        // Load all recipes from 'recipes' collection
+        function loadAllRecipes() {
+            const grid = document.getElementById('recipes-grid');
+            grid.innerHTML = 'Loading recipes...';
+            
+            db.collection('recipes').orderBy('createdAt', 'desc').get().then(querySnapshot => {
+                grid.innerHTML = '';
+                if (querySnapshot.empty) {
+                    grid.innerHTML = '<p>No recipes found.</p>';
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const recipe = doc.data();
+                    const recipeId = doc.id;
+                    const card = document.createElement('div');
+                    card.className = 'card recipe-card';
+                    card.innerHTML = `
+                        <img src="${recipe.imageBase64}" alt="${recipe.title}"> 
+                        <h3>${recipe.title}</h3>
+                        <p><strong>By:</strong> ${recipe.uploaderName}</p>
+                        <p><strong>Category:</strong> ${recipe.category}</p>
+                        <button class="btn-delete" onclick="deleteRecipe('${recipeId}')">Delete Recipe</button>
+                    `;
+                    grid.appendChild(card);
+                });
+            });
+        }
+
+        // Delete a recipe (admin power)
+        function deleteRecipe(recipeId) {
+            if (confirm('Are you sure you want to permanently delete this user\'s recipe?')) {
+                db.collection('recipes').doc(recipeId).delete()
+                    .then(() => {
+                        alert('Recipe deleted successfully.');
+                        loadAllRecipes(); // Refresh the list
+                    })
+                    .catch(error => {
+                        console.error("Error deleting recipe: ", error);
+                        alert('Error deleting recipe.');
+                    });
+            }
+        }
+
+    </script>
+</body>
+</html>

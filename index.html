@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Veggie & Vittles - Authentication</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), 
+                              url('images/auth-bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .auth-container {
+            width: 90%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            min-height: 500px;
+        }
+        
+        .auth-left {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+        }
+        
+        .auth-left h1 {
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+        
+        .auth-left p {
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .auth-right {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .auth-right h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 37px;
+            cursor: pointer;
+            color: #555;
+            user-select: none;
+        }
+        
+        .password-strength {
+            margin-top: 5px;
+            height: 5px;
+            background-color: #eee;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .password-strength-meter {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s, background-color 0.3s;
+        }
+        
+        .password-criteria {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #777;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #3e8e41;
+        }
+        
+        .toggle-form {
+            text-align: center;
+            margin-top: 20px;
+            color: #555;
+        }
+        
+        .toggle-form a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .toggle-form a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #f44336;
+            margin-top: 5px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .success-message {
+            color: #4CAF50;
+            margin-top: 5px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .logo-auth {
+            width: 100px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+        
+        .forgot-password a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+        
+        .verification-message {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+            }
+            
+            .auth-left, .auth-right {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-left">
+            <img src="images/logo.jpeg" alt="Logo" class="logo-auth">
+            <h1>Welcome Back!</h1>
+            <p>Access your account to explore local vegetable vendors, delicious recipes, and more. Join our community of food enthusiasts and local vendors.</p>
+        </div>
+        
+        <div class="auth-right">
+            <div id="login-form">
+                <h2>Login to Your Account</h2>
+                <div class="verification-message" id="verification-message">
+                    Please verify your email address. Check your inbox for a verification link.
+                </div>
+                <form id="login">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                        <div class="error-message" id="login-email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                        <span class="password-toggle" id="login-password-toggle">Show</span>
+                        <div class="error-message" id="login-password-error"></div>
+                    </div>
+                    <div class="forgot-password">
+                        <a id="show-forgot-password">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+                <div class="toggle-form">
+                    Don't have an account? <a id="show-signup">Sign up</a>
+                </div>
+                <div class="error-message" id="login-error"></div>
+                <div class="success-message" id="login-success"></div>
+            </div>
+            
+            <div id="signup-form" style="display: none;">
+                <h2>Create an Account</h2>
+                <form id="signup">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" required>
+                        <div class="error-message" id="signup-name-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" required>
+                        <div class="error-message" id="signup-email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required>
+                        <span class="password-toggle" id="signup-password-toggle">Show</span>
+                        <div class="password-strength">
+                            <div class="password-strength-meter" id="password-meter"></div>
+                        </div>
+                        <div class="password-criteria">
+                            Password must be at least 8 characters with letters, numbers, and special characters
+                        </div>
+                        <div class="error-message" id="signup-password-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                        <input type="password" id="signup-confirm-password" required>
+                        <span class="password-toggle" id="confirm-password-toggle">Show</span>
+                        <div class="error-message" id="signup-confirm-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-type">Account Type</label>
+                        <select id="user-type" required>
+                            <option value="">Select account type</option>
+                            <option value="user">Regular User</option>
+                            <option value="vendor">Vendor</option>
+                        </select>
+                        <div class="error-message" id="user-type-error"></div>
+                    </div>
+                    <button type="submit" class="btn">Sign Up</button>
+                </form>
+                <div class="toggle-form">
+                    Already have an account? <a id="show-login">Login</a>
+                </div>
+                <div class="error-message" id="signup-error"></div>
+                <div class="success-message" id="signup-success"></div>
+            </div>
+            
+            <div id="forgot-password-form" style="display: none;">
+                <h2>Reset Your Password</h2>
+                <p style="text-align: center; margin-bottom: 20px; color: #555;">
+                    Enter your email address and we'll send you a link to reset your password.
+                </p>
+                <form id="reset-password">
+                    <div class="form-group">
+                        <label for="reset-email">Email</label>
+                        <input type="email" id="reset-email" required>
+                        <div class="error-message" id="reset-email-error"></div>
+                    </div>
+                    <button type="submit" class="btn">Send Reset Link</button>
+                </form>
+                <div class="toggle-form">
+                    Remember your password? <a id="back-to-login">Back to login</a>
+                </div>
+                <div class="error-message" id="reset-error"></div>
+                <div class="success-message" id="reset-success"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <script>
+        // Your web app's Firebase configuration
+        // !! IMPORTANT: REPLACE WITH YOUR ACTUAL FIREBASE CONFIG !!
+        const firebaseConfig = {
+            apiKey: "AIzaSyCIjrMGGX6dqNZjRMGRfpoG3xze0gZNbhA",
+            authDomain: "veggievendor01.firebaseapp.com",
+            projectId: "veggievendor01",
+            storageBucket: "veggievendor01.firebasestorage.app",
+            messagingSenderId: "599452585405",
+            appId: "1:599452585405:web:323ec877ed10bb0d4c96d4",
+            measurementId: "G-MG94MY4KJT"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // DOM elements
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const forgotPasswordForm = document.getElementById('forgot-password-form');
+        const showSignup = document.getElementById('show-signup');
+        const showLogin = document.getElementById('show-login');
+        const showForgotPassword = document.getElementById('show-forgot-password');
+        const backToLogin = document.getElementById('back-to-login');
+        const verificationMessage = document.getElementById('verification-message');
+        
+        // Password toggle elements
+        const loginPasswordToggle = document.getElementById('login-password-toggle');
+        const signupPasswordToggle = document.getElementById('signup-password-toggle');
+        const confirmPasswordToggle = document.getElementById('confirm-password-toggle');
+        const loginPassword = document.getElementById('login-password');
+        const signupPassword = document.getElementById('signup-password');
+        const confirmPassword = document.getElementById('signup-confirm-password');
+        
+        // Toggle password visibility
+        loginPasswordToggle.addEventListener('click', () => {
+            togglePasswordVisibility(loginPassword, loginPasswordToggle);
+        });
+        
+        signupPasswordToggle.addEventListener('click', () => {
+            togglePasswordVisibility(signupPassword, signupPasswordToggle);
+        });
+        
+        confirmPasswordToggle.addEventListener('click', () => {
+            togglePasswordVisibility(confirmPassword, confirmPasswordToggle);
+        });
+        
+        function togglePasswordVisibility(passwordField, toggleElement) {
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleElement.textContent = 'Hide';
+            } else {
+                passwordField.type = 'password';
+                toggleElement.textContent = 'Show';
+            }
+        }
+        
+        // Password strength meter
+        const passwordInput = document.getElementById('signup-password');
+        const passwordMeter = document.getElementById('password-meter');
+        
+        passwordInput.addEventListener('input', updatePasswordStrength);
+        
+        function updatePasswordStrength() {
+            const password = passwordInput.value;
+            let strength = 0;
+            let color = '#eee';
+            
+            if (password.length >= 8) strength += 25;
+            if (password.match(/[A-Z]/)) strength += 25;
+            if (password.match(/[0-9]/)) strength += 25;
+            if (password.match(/[^A-Za-z0-9]/)) strength += 25;
+            
+            if (strength < 25) color = '#f44336';
+            else if (strength < 50) color = '#ff9800';
+            else if (strength < 75) color = '#ffc107';
+            else color = '#4caf50';
+            
+            passwordMeter.style.width = strength + '%';
+            passwordMeter.style.backgroundColor = color;
+        }
+        
+        // Toggle between login, signup, and forgot password forms
+        showSignup.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+            forgotPasswordForm.style.display = 'none';
+            signupForm.style.display = 'block';
+            clearErrors();
+        });
+        
+        showLogin.addEventListener('click', () => {
+            signupForm.style.display = 'none';
+            forgotPasswordForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            clearErrors();
+        });
+        
+        showForgotPassword.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'none';
+            forgotPasswordForm.style.display = 'block';
+            clearErrors();
+        });
+        
+        backToLogin.addEventListener('click', () => {
+            forgotPasswordForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            clearErrors();
+        });
+        
+        // Clear all error messages
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+                el.textContent = '';
+            });
+            document.querySelectorAll('.success-message').forEach(el => {
+                el.style.display = 'none';
+                el.textContent = '';
+            });
+        }
+        
+        // Display error message for a specific field
+        function showError(fieldId, message) {
+            const errorElement = document.getElementById(fieldId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        
+        // Display success message
+        function showSuccess(elementId, message) {
+            const successElement = document.getElementById(elementId);
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+        }
+        
+        // Validate email format
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+        
+        // Validate password strength
+        function isStrongPassword(password) {
+            // At least 8 characters with at least one letter, one number, and one special character
+            const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+            return re.test(password);
+        }
+        
+        // Login form submission
+        document.getElementById('login').addEventListener('submit', (e) => {
+            e.preventDefault();
+            clearErrors();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            let isValid = true;
+            
+            if (!email) {
+                showError('login-email-error', 'Email is required');
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                showError('login-email-error', 'Please enter a valid email');
+                isValid = false;
+            }
+            
+            if (!password) {
+                showError('login-password-error', 'Password is required');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+
+            // ===== NEW ADMIN LOGIN LOGIC =====
+            if (email === 'admin@12345gmail.com' && password === 'admin12345') {
+                // Admin login
+                showSuccess('login-success', 'Admin login successful! Redirecting...');
+                
+                // Store admin info in localStorage
+                localStorage.setItem('user', JSON.stringify({
+                    email: 'admin@12345gmail.com',
+                    userType: 'admin',
+                    name: 'Admin'
+                }));
+                
+                // Redirect to admin page
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1500);
+                
+            } else {
+                // ===== REGULAR USER LOGIN LOGIC =====
+                auth.signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        
+                        // Check if email is verified
+                        if (!user.emailVerified) {
+                            verificationMessage.style.display = 'block';
+                            // Send verification email again
+                            user.sendEmailVerification();
+                            throw new Error('email-not-verified');
+                        }
+                        
+                        // Record login timestamp in database
+                        db.collection('user_sessions').add({
+                            userId: user.uid,
+                            email: user.email,
+                            loginTime: firebase.firestore.FieldValue.serverTimestamp(),
+                            deviceInfo: {
+                                userAgent: navigator.userAgent,
+                                platform: navigator.platform
+                            }
+                        });
+                        
+                        // Update user's last login timestamp
+                        db.collection('users').doc(user.uid).update({
+                            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+                        }).catch(err => console.log('Error updating last login:', err));
+                        
+                        // Signed in successfully
+                        showSuccess('login-success', 'Login successful! Redirecting...');
+                        
+                        // Get user type from database
+                        return db.collection('users').doc(user.uid).get();
+                    })
+                    .then((doc) => {
+                        if (doc && doc.exists) {
+                            const userData = doc.data();
+                            
+                            // Store user data in localStorage
+                            localStorage.setItem('user', JSON.stringify({
+                                uid: auth.currentUser.uid,
+                                email: auth.currentUser.email,
+                                name: userData.name || '',
+                                userType: userData.userType || 'user'
+                            }));
+                            
+                            // Redirect to main page after 1.5 seconds
+                            setTimeout(() => {
+                                // Redirect to home.html
+                                window.location.href = 'home.html'; 
+                            }, 1500);
+                        } else if (doc) { 
+                            // This block might be hit if the user exists in Auth but not Firestore
+                            // For example, if admin-login-check failed but it wasn't a valid user
+                            showError('login-error', 'User data not found.');
+                        }
+                    })
+                    .catch((error) => {
+                        // Handle errors
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        
+                        if (error.message === 'email-not-verified') {
+                            showError('login-error', 'Please verify your email before logging in');
+                        } else if (errorCode === 'auth/user-not-found') {
+                            showError('login-error', 'No account found with this email');
+                        } else if (errorCode === 'auth/wrong-password') {
+                            showError('login-error', 'Incorrect password');
+                        } else {
+                            showError('login-error', errorMessage);
+                        }
+                    });
+            }
+        });
+        
+        // Signup form submission (no changes needed)
+        document.getElementById('signup').addEventListener('submit', (e) => {
+            e.preventDefault();
+            clearErrors();
+            
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            const userType = document.getElementById('user-type').value;
+            
+            let isValid = true;
+            
+            if (!name) {
+                showError('signup-name-error', 'Name is required');
+                isValid = false;
+            }
+            
+            if (!email) {
+                showError('signup-email-error', 'Email is required');
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                showError('signup-email-error', 'Please enter a valid email');
+                isValid = false;
+            }
+            
+            if (!password) {
+                showError('signup-password-error', 'Password is required');
+                isValid = false;
+            } else if (!isStrongPassword(password)) {
+                showError('signup-password-error', 'Password must be at least 8 characters with letters, numbers, and special characters');
+                isValid = false;
+            }
+            
+            if (!confirmPassword) {
+                showError('signup-confirm-error', 'Please confirm your password');
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                showError('signup-confirm-error', 'Passwords do not match');
+                isValid = false;
+            }
+            
+            if (!userType) {
+                showError('user-type-error', 'Please select an account type');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Signed up successfully
+                        const user = userCredential.user;
+                        
+                        // Send email verification
+                        return user.sendEmailVerification()
+                            .then(() => {
+                                return user;
+                            });
+                    })
+                    .then((user) => {
+                        // Save additional user data to Firestore
+                        // This is our new 'users' collection
+                        return db.collection('users').doc(user.uid).set({
+                            name: name,
+                            email: email,
+                            userType: userType,
+                            emailVerified: false, // Will be set to true upon verification
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    })
+                    .then(() => {
+                        showSuccess('signup-success', 'Account created successfully! Please check your email to verify your account.');
+                        
+                        // Switch to login form after 3 seconds
+                        setTimeout(() => {
+                            signupForm.style.display = 'none';
+                            loginForm.style.display = 'block';
+                            verificationMessage.style.display = 'block';
+                        }, 3000);
+                    })
+                    .catch((error) => {
+                        // Handle errors
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        
+                        if (errorCode === 'auth/email-already-in-use') {
+                            showError('signup-error', 'An account already exists with this email');
+                        } else {
+                            showError('signup-error', errorMessage);
+                        }
+                    });
+            }
+        });
+        
+        // Forgot password form submission (no changes)
+        document.getElementById('reset-password').addEventListener('submit', (e) => {
+            e.preventDefault();
+            clearErrors();
+            
+            const email = document.getElementById('reset-email').value;
+            
+            let isValid = true;
+            
+            if (!email) {
+                showError('reset-email-error', 'Email is required');
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                showError('reset-email-error', 'Please enter a valid email');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                auth.sendPasswordResetEmail(email)
+                    .then(() => {
+                        showSuccess('reset-success', 'Password reset email sent! Check your inbox.');
+                        
+                        // Log the password reset attempt
+                        db.collection('password_resets').add({
+                            email: email,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        
+                        // Switch to login form after 3 seconds
+                        setTimeout(() => {
+                            forgotPasswordForm.style.display = 'none';
+                            loginForm.style.display = 'block';
+                        }, 3000);
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        
+                        if (errorCode === 'auth/user-not-found') {
+                            // For security, don't reveal if the email exists or not
+                            showSuccess('reset-success', 'If that email exists in our system, a password reset link has been sent.');
+                        } else {
+                            showError('reset-error', errorMessage);
+                        }
+                    });
+            }
+        });
+        
+        // Check if user is already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user && user.emailVerified) {
+                // User is signed in and verified, redirect to home page
+                // We store their data on login, but if they are already logged in, 
+                // we should redirect them.
+                
+                // Check if user data is in localStorage, if not, fetch it.
+                if (!localStorage.getItem('user')) {
+                     db.collection('users').doc(user.uid).get().then(doc => {
+                        if (doc.exists) {
+                            const userData = doc.data();
+                            localStorage.setItem('user', JSON.stringify({
+                                uid: user.uid,
+                                email: user.email,
+                                name: userData.name || '',
+                                userType: userData.userType || 'user'
+                            }));
+                        }
+                        window.location.href = 'home.html';
+                     });
+                } else {
+                    window.location.href = 'home.html';
+                }
+
+            } else if (user && !user.emailVerified) {
+                // User is signed in but not verified
+                verificationMessage.style.display = 'block';
+            }
+            // If no user, they just stay on the login page.
+        });
+        
+        // Check if the URL contains verification parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const mode = urlParams.get('mode');
+        const actionCode = urlParams.get('oobCode');
+        
+        if (mode === 'verifyEmail' && actionCode) {
+            // Handle email verification
+            auth.applyActionCode(actionCode)
+                .then(() => {
+                    // Email verified successfully
+                    showSuccess('login-success', 'Email verified successfully! You can now login.');
+                    
+                    // Update user record in database
+                    // We need to find out *which* user just verified.
+                    // This is tricky as auth.currentUser might be null.
+                    // We'll rely on the user logging in to get their updated status.
+                    // For a more robust solution, you'd need to identify the user.
+                    // But this is simpler.
+                })
+                .catch((error) => {
+                    // Handle errors
+                    showError('login-error', 'Invalid or expired verification link. Please request a new one.');
+                });
+        } else if (mode === 'resetPassword' && actionCode) {
+            // Handle password reset
+            // This is complex. A simple approach:
+            // window.location.href = `reset.html?oobCode=${actionCode}`;
+            // For now, just show a message.
+            showSuccess('login-success', 'Please enter your new password to complete the reset process.');
+        }
+    </script>
+</body>
+</html>

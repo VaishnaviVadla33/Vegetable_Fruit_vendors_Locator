@@ -1,0 +1,30 @@
+# --- Virtual environments ---
+venv/
+chatbot_backend/venv/
+
+# --- Environment files and credentials ---
+.env
+chatbot_backend/.env
+chatbot_backend/firebase-credentials.json
+
+# --- Python cache and temp files ---
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.tmp
+
+# --- Node or frontend dependencies (if present) ---
+node_modules/
+bootstrap-4.3.1-dist/
+
+# --- Editor and system files ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- AWS Lambda build artifacts (if generated) ---
+*.zip
+dist/
+build/

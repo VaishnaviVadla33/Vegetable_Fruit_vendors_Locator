@@ -1,0 +1,29 @@
+# Python virtual environments
+venv/
+chatbot_backend/venv/
+
+# Environment variables and credentials
+.env
+chatbot_backend/.env
+chatbot_backend/firebase-credentials.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Node or frontend dependencies
+node_modules/
+bootstrap-4.3.1-dist/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# IDE / Editor folders
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

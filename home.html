@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Veggie & Vittles</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA71T-0pbpgDK6kEzN1tQ3YcabfNhC2r3A" defer></script>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1 class="header-logo"><img id="logo" src="images/logo.jpeg" alt="Logo">VENDOR VEGGIE & VITTLES</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showSection('home')" class="active">Home</a></li>
+                    <li><a href="#" onclick="showSection('vendors')">Local Vendors</a></li>
+                    <li><a href="#" onclick="showSection('recipes')">Recipes</a></li>
+                    <li><a href="#" onclick="showSection('grocer-guide')">Grocer Guide</a></li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="account-dropdown-toggle">Account ▼</a>
+                        <ul class="dropdown-menu">
+                            <li id="nav-my-recipes"><a href="#" onclick="showSection('my-recipes')">My Recipes</a></li>
+                            <li id="nav-upload-recipe"><a href="#" onclick="showSection('upload-recipe-form')">Upload Recipe</a></li>
+                            <li id="nav-my-shop" style="display: none;"><a href="#" onclick="showSection('vendor-details-form')">My Shop</a></li>
+                            <li id="nav-my-orders"><a href="#" onclick="showSection('my-orders')">My Orders</a></li>
+                            <li><hr class="dropdown-divider"></li> <li><a href="#" id="logout-btn-dropdown">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section id="home" class="section active">
+                <!-- Hero / Masthead -->
+                <div class="hero fade-up">
+                    <div class="hero-inner">
+                        <div class="hero-text">
+                            <h1>Fresh Local Produce & South Indian Recipes</h1>
+                            <p class="lead">We connect you with nearby vendors and delicious recipes — discover, cook and enjoy fresh flavours from your neighbourhood.</p>
+                            <div class="hero-ctas">
+                                <button class="btn btn-cta" onclick="showSection('vendors')">Find Vendors</button>
+                                <button class="btn btn-cta outline" onclick="showSection('recipes')">Explore Recipes</button>
+                            </div>
+                            <!-- Ordering hint panel -->
+                            <div class="hero-order-hint">
+                                <p><strong>Want to order a prepared dish or ingredients?</strong> Please open the recipe you like and use the <em>Order This Recipe</em> button on the recipe details popup — orders are placed from the recipe page.</p>
+                            </div>
+                        </div>
+
+                        <!-- Carousel Card (preserves original IDs and structure for script.js) -->
+                        <div class="carousel-card fade-up">
+                            <div class="image-sets">
+                                <div class="image-set active" id="image-set1">
+                                    <div class="images">
+                                        <img src="images/veg_100.jpeg" alt="Vendor 1">
+                                        <img src="images/fruit_40.jpeg" alt="Vendor 2">
+                                        <img src="images/veg_70.jpeg" alt="Vendor 3">
+                                    </div>
+                                </div>
+                                <div class="image-set" id="image-set2">
+                                    <div class="images">
+                                        <img src="images/food1.jpeg" alt="Food 1">
+                                        <img src="images/food2.jpeg" alt="Food 2">
+                                        <img src="images/food3.jpeg" alt="Food 3">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-controls">
+                                <button class="arrow-box" onclick="prevSet()">Prev</button>
+                                <button class="arrow-box" onclick="nextSet()">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Cards -->
+                <div class="features container fade-up">
+                    <div class="feature-card" onclick="showSection('vendors')">
+                        <img src="images/v1.png" alt="Vendors">
+                        <h3>Local Vegetable Vendors</h3>
+                        <p>Find fresh seasonal produce from trusted neighbourhood vendors.</p>
+                    </div>
+                    <div class="feature-card" onclick="showSection('recipes')">
+                        <img src="images/recipe1.png" alt="Recipes">
+                        <h3>South Indian Recipes</h3>
+                        <p>Explore hand-picked recipes with easy step-by-step directions.</p>
+                    </div>
+                    <div class="feature-card" onclick="showSection('grocer-guide')">
+                        <img src="images/map.png" alt="Map">
+                        <h3>Grocer Guide</h3>
+                        <p>Interactive map to locate vendors and plan your route.</p>
+                    </div>
+                </div>
+                
+                <!-- How It Works -->
+                <div class="how-it-works container fade-up">
+                    <h2 class="section-title">How It Works</h2>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-icon">1</div>
+                            <h4>Find Vendors</h4>
+                            <p>Search and locate fresh produce vendors near you using the Grocer Guide.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">2</div>
+                            <h4>Explore Recipes</h4>
+                            <p>Discover local recipes and pick ingredients from nearby vendors.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">3</div>
+                            <h4>Order or Visit</h4>
+                            <p>Contact vendors directly or visit them using the map directions.</p>
+                        </div>
+                            <div class="step">
+                                <div class="step-icon">4</div>
+                                <h4>Order from Owner</h4>
+                                <p>Like a recipe? You can request to order it directly from the owner — the bot will help you in finding the Right Owner</p>
+                            </div>
+                    </div>
+                </div>
+
+                <!-- About the Bot -->
+                <div class="about-bot container fade-up">
+                    <div class="bot-card">
+                        <div class="bot-image" aria-hidden="true">
+                            <!-- Inline SVG robot icon -->
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <rect x="3" y="7" width="18" height="10" rx="2" fill="#fff" />
+                                <rect x="6" y="3" width="3" height="3" rx="1" fill="#fff" opacity="0.15" />
+                                <rect x="15" y="3" width="3" height="3" rx="1" fill="#fff" opacity="0.15" />
+                                <path d="M7 10.5C7.828 10.5 8.5 9.828 8.5 9C8.5 8.172 7.828 7.5 7 7.5C6.172 7.5 5.5 8.172 5.5 9C5.5 9.828 6.172 10.5 7 10.5Z" fill="#e8f5e9" />
+                                <path d="M17 10.5C17.828 10.5 18.5 9.828 18.5 9C18.5 8.172 17.828 7.5 17 7.5C16.172 7.5 15.5 8.172 15.5 9C15.5 9.828 16.172 10.5 17 10.5Z" fill="#e8f5e9" />
+                                <rect x="8" y="12" width="8" height="2" rx="1" fill="#c8e6c9" />
+                                <rect x="10" y="15" width="4" height="2" rx="1" fill="#c8e6c9" />
+                            </svg>
+                        </div>
+                        <div class="bot-content">
+                            <h3>Meet the Recipe Bot</h3>
+                            <p>Our assistant helps you find recipes, suggests ingredient substitutions, and can tell you which nearby vendors stock the items you need. Ask about recipes or vendors — the bot uses local vendor data to give helpful answers.</p>
+                            <div class="bot-actions">
+                                <button class="btn" id="open-chat-btn">Start Chat</button>
+                                <button class="btn outline" onclick="showSection('grocer-guide')">Open Map</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="vendors" class="section">
+                 <h2 class="section-title">Local Vegetable Vendors</h2>
+                <div class="vendor-grid">
+                    <div class="vendor-card">
+                        <img src="images/veg_10.jpeg" alt="Anjama">
+                        <h3>Anjama</h3>
+                        <p>Location: Padmavathi colony</p>
+                        <p>Contact: 9573069662</p>
+                        <div class="vegetables">
+                            <span>Tomato</span>
+                            <span>Onion</span>
+                            <span>Potato</span>
+                            <span>Cabbage</span>
+                        </div>
+                    </div>
+                    <div class="vendor-card">
+                        <img src="images/veg_20.jpeg" alt="Nirmala">
+                        <h3>Nirmala</h3>
+                        <p>Location: Venkateshwara colony</p>
+                        <p>Contact: 8886833609</p>
+                        <div class="vegetables">
+                            <span>Carrot</span>
+                            <span>Spinach</span>
+                            <span>Capsicum</span>
+                        </div>
+                    </div>
+                    <div class="vendor-card">
+                        <img src="images/veg_30.jpeg" alt="Parupally Chennamma">
+                        <h3>Parupally Chennamma</h3>
+                        <p>Location: Venkateshwara colony</p>
+                        <p>Contact: 9XXXXXXXXX</p>
+                        <div class="vegetables">
+                            <span>Brinjal</span>
+                            <span>Bitter gourd</span>
+                            <span>Ridge gourd</span>
+                        </div>
+                    </div>
+                    <div class="vendor-card">
+                        <img src="images/fruit_40.jpeg" alt="Krishnama">
+                        <h3>Krishnama</h3>
+                        <p>Location: Venkateshwara colony</p>
+                        <p>Contact: 9XXXXXXXXX</p>
+                        <div class="vegetables">
+                            <span>Apple</span>
+                            <span>Orange</span>
+                            <span>Banana</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="center-button">
+                    <button class="btn" onclick="showSection('grocer-guide')">View All Vendors on Map</button>
+                </div>
+            </section>
+
+            <section id="recipes" class="section">
+                <h2 class="section-title">South Indian Recipe Book</h2>
+                <div class="search-container">
+                    <input type="text" id="recipe-search-input" placeholder="Search for recipes by name...">
+                    <button id="recipe-search-btn" class="btn">Search</button>
+                </div>
+                <div class="recipe-categories">
+                    <div class="category">
+                        <h2>Vegetarian</h2>
+                        <div class="options">
+                            <a href="#vegetarian-recipes" onclick="showRecipeSection('vegetarian-recipes')" class="btn">View Recipes</a>
+                        </div>
+                    </div>
+                    <div class="category">
+                        <h2>Desserts</h2>
+                        <div class="options">
+                            <a href="#dessert-recipes" onclick="showRecipeSection('dessert-recipes')" class="btn">View Recipes</a>
+                        </div>
+                    </div>
+                    <div class="category">
+                        <h2>Non-Vegetarian</h2>
+                        <div class="options">
+                            <a href="#non-vegetarian-recipes" onclick="showRecipeSection('non-vegetarian-recipes')" class="btn">View Recipes</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="recipe-sections">
+                    <div class="recipe-section" id="vegetarian-recipes">
+                        <h2>Vegetarian Recipes</h2>
+                        <div class="recipe-grid" id="vegetarian-grid"></div>
+                    </div>
+                    <div class="recipe-section" id="dessert-recipes">
+                        <h2>Desserts Recipes</h2>
+                        <div class="recipe-grid" id="dessert-grid"></div>
+                    </div>
+                    <div class="recipe-section" id="non-vegetarian-recipes">
+                        <h2>Non-Vegetarian Recipes</h2>
+                        <div class="recipe-grid" id="nonVegetarian-grid"></div>
+                    </div>
+                </div>
+                <div class="recipe-section" id="search-results-section">
+                    <h2>Search Results</h2>
+                    <div class="recipe-grid" id="search-results-grid"></div>
+                </div>
+
+                <div class="recipe-popup">
+                    <div class="popup-content">
+                        <span class="close-popup">&times;</span>
+                        <h2 class="recipe-title"></h2>
+                        <img class="recipe-image" src="" alt="">
+                        <div class="recipe-details">
+                            <h3>Uploaded by: <span id="recipe-uploader"></span></h3>
+                            <h3>Ingredients</h3>
+                            <ul class="ingredients"></ul>
+                            <h3>Method</h3>
+                            <ol class="method"></ol>
+                            <div class="video-container">
+                                <iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <button class="btn" id="show-order-form-btn">Order This Recipe</button>
+                            <form id="order-form" style="display: none;">
+                                <h3 style="margin-top: 20px;">Place Your Order</h3>
+                                <div class="form-group">
+                                    <label for="customer-phone">Your Phone Number</label>
+                                    <input type="tel" id="customer-phone" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customer-address">Your Address & Details</label>
+                                    <textarea id="customer-address" class="form-control" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn">Submit Order</button>
+                                <div id="order-success" class="success-message"></div>
+                                <div id="order-error" class="error-message"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="grocer-guide" class="section">
+                 <h2 class="section-title">Grocer Guide</h2>
+                <div class="map-container">
+                    <div class="map-overlay">
+                        <div class="map-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #4CAF50;"></div>
+                                <span>Vegetable Vendors</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #FF5252;"></div>
+                                <span>Fruit Vendors</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #2196F3;"></div>
+                                <span>Registered Vendors</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="map"></div>
+                    <div id="sidebar">
+                        <div id="sidebar-content"></div>
+                        <button id="close-sidebar">×</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="my-recipes" class="section">
+                 <h2 class="section-title">My Uploaded Recipes</h2>
+                <p style="text-align: center;">Here you can view, edit, or delete the recipes you have uploaded.</p>
+                <div class="recipe-grid" id="my-recipes-grid">
+                </div>
+            </section>
+
+            <section id="upload-recipe-form" class="section">
+                <h2 class="section-title" id="upload-form-title">Upload a New Recipe</h2>
+                <form id="upload-form">
+                    <input type="hidden" id="edit-recipe-id">
+                    <div class="form-group">
+                        <label for="recipe-title">Recipe Title</label>
+                        <input type="text" id="recipe-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipe-description">Description</label>
+                        <textarea id="recipe-description" rows="3" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipe-category">Category</label>
+                        <select id="recipe-category" class="form-control" required>
+                            <option value="">Select Category</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="dessert">Dessert</option>
+                            <option value="nonVegetarian">Non-Vegetarian</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipe-ingredients">Ingredients (one per line)</label>
+                        <textarea id="recipe-ingredients" rows="6" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipe-method">Method (one step per line)</label>
+                        <textarea id="recipe-method" rows="8" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipe-video">YouTube Video URL (full URL)</label>
+                        <input type="url" id="recipe-video" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipe-image">Recipe Image</label>
+                        <input type="file" id="recipe-image" class="form-control" accept="image/*">
+                        <img id="image-preview" src="" alt="Image preview" style="max-width: 200px; display: none; margin-top: 10px;">
+                    </div>
+                    <button type="submit" class="btn" id="upload-submit-btn">Submit Recipe</button>
+                    <div id="upload-success" class="success-message" style="margin-top: 10px;"></div>
+                    <div id="upload-error" class="error-message" style="margin-top: 10px;"></div>
+                </form>
+            </section>
+
+            <section id="vendor-details-form" class="section">
+                <h2 class="section-title">My Shop Details</h2>
+                <p style="text-align: center;">Update your shop information to appear on the map.</p>
+                <form id="vendor-form">
+                    <div class="form-group">
+                        <label for="vendor-name">Shop Name</label>
+                        <input type="text" id="vendor-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vendor-contact">Public Contact Number</label>
+                        <input type="tel" id="vendor-contact" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Shop Location</label>
+                        <button type="button" class="btn" id="capture-location-btn">Capture My Current Location</button>
+                        <div class="password-criteria">Stand at your shop's location and click this button.</div>
+                        <div id="vendor-location-error" class="error-message" style="margin-top: 10px;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="vendor-latitude">Latitude</label>
+                        <!-- Make editable so user can tweak after capture or enter manually -->
+                        <input type="text" id="vendor-latitude" class="form-control" placeholder="e.g. 16.8236857" required>
+                        <small class="form-text">You can capture your current location or type latitude manually.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="vendor-longitude">Longitude</label>
+                        <!-- Make editable so user can tweak after capture or enter manually -->
+                        <input type="text" id="vendor-longitude" class="form-control" placeholder="e.g. 78.1422984" required>
+                        <small class="form-text">You can capture your current location or type longitude manually.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="vendor-products">Products (one per line)</label>
+                        <textarea id="vendor-products" rows="4" class="form-control" placeholder="Tomato
+Onion
+Carrot"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="vendor-image">Shop Image (Optional)</label>
+                        <input type="file" id="vendor-image" class="form-control" accept="image/*">
+                        <img id="vendor-image-preview" src="" alt="Shop preview" style="max-width: 200px; display: none; margin-top: 10px;">
+                    </div>
+                    <button type="submit" class="btn" id="vendor-submit-btn">Update My Shop</button>
+                    <div id="vendor-success" class="success-message" style="margin-top: 10px;"></div>
+                    <div id="vendor-error" class="error-message" style="margin-top: 10px;"></div>
+                </form>
+            </section>
+
+            <section id="my-orders" class="section">
+                <h2 class="section-title">My Orders</h2>
+                <div class="orders-container">
+                    <div class="order-column">
+                        <h3>Orders I've Placed</h3>
+                        <div id="orders-placed-grid" class="order-grid">
+                            </div>
+                    </div>
+                    <div class="order-column">
+                        <h3>Orders For My Recipes</h3>
+                        <div id="orders-received-grid" class="order-grid">
+                            </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <div id="chatbot-container">
+            <button id="chatbot-toggle-btn" aria-label="Open chat"></button>
+            <div id="chatbot-window">
+                <div id="chatbot-header">Recipe Chatbot <span id="chatbot-close-btn">&times;</span></div>
+                <div id="chatbot-messages">
+                    <div class="message bot-message">Hello! Ask me about recipes.</div>
+                </div>
+                <div id="chatbot-input-area">
+                    <input type="text" id="chatbot-input" placeholder="Ask a question...">
+                    <button id="chatbot-send-btn">Send</button>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p>&copy; 2025 Vendor Veggie & Vittles - All Rights Reserved</p>
+        </footer>
+    </div> <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+        // !! IMPORTANT: REPLACE WITH YOUR ACTUAL FIREBASE CONFIG !!
+        const firebaseConfig = {
+        apiKey: "AIzaSyCIjrMGGX6dqNZjRMGRfpoG3xze0gZNbhA",
+        authDomain: "veggievendor01.firebaseapp.com",
+        projectId: "veggievendor01",
+        storageBucket: "veggievendor01.firebasestorage.app",
+        messagingSenderId: "599452585405",
+        appId: "1:599452585405:web:323ec877ed10bb0d4c96d4",
+        measurementId: "G-MG94MY4KJT"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
