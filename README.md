@@ -23,7 +23,6 @@
 - [Project Structure](#project-structure)
 - [User Flows](#user-flows)
 - [Contributing](#contributing)
-- [Contact](#contact)
 
 ---
 
