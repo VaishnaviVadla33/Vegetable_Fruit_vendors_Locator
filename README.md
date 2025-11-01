@@ -1,7 +1,7 @@
-# 🥬 Vendor Veggie & Vittles
+# Vendor Veggie & Vittles
 
 <div align="center">
-  <img src="images/logo.jpeg" alt="Vendor Veggie & Vittles Logo" width="200"/>
+  <img src="https://github.com/VaishnaviVadla33/Vegetable_Fruit_vendors_Locator/blob/master/Interface.png" alt="Vendor Veggie & Vittles Interface" width="100%"/>
   
   ### A Complete Local Food Ecosystem Platform
   
@@ -14,73 +14,73 @@
 
 ## 📋 Table of Contents
 
-- [Overview](#-overview)
-- [Key Features](#-key-features)
-- [Architecture](#-architecture)
-- [Tech Stack](#-tech-stack)
-- [Getting Started](#-getting-started)
-- [Deployment](#-deployment)
-- [Project Structure](#-project-structure)
-- [User Flows](#-user-flows)
-- [Contributing](#-contributing)
-- [Contact](#-contact)
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Architecture](#architecture)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Deployment](#deployment)
+- [Project Structure](#project-structure)
+- [User Flows](#user-flows)
+- [Contributing](#contributing)
+- [Contact](#contact)
 
 ---
 
-## 🌟 Overview
+## Overview
 
 **Vendor Veggie & Vittles** bridges the gap between local vegetable vendors, home cooks, and food enthusiasts. It creates a thriving ecosystem where fresh produce meets culinary creativity, empowering communities to discover, cook, and support local businesses.
 
-### 🎯 Problem Statement
+### Problem Statement
 
 - **Vendors**: Small vegetable vendors lack digital presence
 - **Home Cooks**: Difficulty finding fresh local ingredients and authentic recipes
 - **Recipe Creators**: No platform to monetize culinary skills
 - **Customers**: Hard to locate nearby vendors and order home-cooked meals
 
-### 💡 Our Solution
+### Our Solution
 
 An integrated platform that:
-- 📍 Maps local vendors with real-time GPS location
-- 📖 Hosts community-driven South Indian recipe collections
-- 🤖 Provides AI assistance connecting recipes, ingredients, and vendors
-- 💰 Enables recipe creators to monetize their dishes
-- 📦 Facilitates complete order management
+- Maps local vendors with real-time GPS location
+- Hosts community-driven South Indian recipe collections
+- Provides AI assistance connecting recipes, ingredients, and vendors
+- Enables recipe creators to monetize their dishes
+- Facilitates complete order management
 
 ---
 
 ## ✨ Key Features
 
-### 🔐 Authentication & User Management
+### Authentication & User Management
 - Multi-role authentication (Users, Vendors, Admin)
 - Email verification with Firebase Authentication
 - Password reset and secure session management
 
-### 🍲 Recipe Platform
+### Recipe Platform
 - **Browse & Search**: Category filtering, real-time search
 - **Rich Media**: High-quality images, YouTube tutorial integration
 - **Upload & Edit**: Share recipes with detailed instructions
 - **Monetization**: "Order This Recipe" feature for prepared dishes
 
-### 📦 Order Management System
+### Order Management System
 - Two-sided dashboard (orders placed vs. received)
 - Status tracking (Pending/Accepted/Rejected)
 - Accept/Reject controls for recipe creators
 - Direct customer-creator communication
 
-### 🗺️ Interactive Vendor Map
+### Interactive Vendor Map
 - Google Maps integration with color-coded markers
 - Vendor profiles with contact info, products, and photos
 - GPS location capture for easy vendor registration
 - Search vendors by product or location
 
-### 🤖 AI-Powered Chatbot
+### AI-Powered Chatbot
 - **RAG Architecture**: Retrieval-Augmented Generation for accuracy
 - **Multi-domain knowledge**: Recipes, vendors, orders
 - **Context-aware**: Remembers conversation history
 - **Smart connections**: Links ingredients to nearby vendors
 
-### 👨‍💼 Admin Dashboard
+### Admin Dashboard
 - User management and monitoring
 - Content moderation (recipe deletion)
 - Platform oversight
@@ -165,13 +165,13 @@ User Browser → CloudFront (HTTPS) → S3 (Static Files)
 
 ### Local Development Setup
 
-#### 1️⃣ Clone Repository
+#### 1. Clone Repository
 ```bash
 git clone https://github.com/yourusername/vendor-veggie-vittles.git
 cd vendor-veggie-vittles
 ```
 
-#### 2️⃣ Configure Firebase
+#### 2. Configure Firebase
 
 Edit `index.html`, `home.html`, `admin.html` with your Firebase config:
 ```javascript
@@ -185,7 +185,7 @@ const firebaseConfig = {
 };
 ```
 
-#### 3️⃣ Backend Setup
+#### 3. Backend Setup
 ```bash
 cd chatbot_backend
 
@@ -210,7 +210,7 @@ Add `firebase-credentials.json` (download from Firebase Console → Project Sett
 
 ## 📦 Deployment
 
-### 🌐 Frontend (S3 + CloudFront)
+### Frontend (S3 + CloudFront)
 
 #### Step 1: Create S3 Bucket
 ```bash
@@ -255,7 +255,7 @@ aws s3 sync . s3://your-bucket-name/ --exclude "chatbot_backend/*"
 
 ---
 
-### 🤖 Backend (Lambda Container)
+### Backend (Lambda Container)
 
 #### Step 1: Build Docker Image
 ```bash
@@ -303,7 +303,7 @@ FIREBASE_PROJECT_ID=your_project_id
 
 ---
 
-### 🔗 Connect Frontend to Backend
+### Connect Frontend to Backend
 
 Update `script.js`:
 ```javascript
@@ -326,71 +326,76 @@ aws cloudfront create-invalidation --distribution-id YOUR_ID --paths "/*"
 ```
 vendor-veggie-vittles/
 │
-├── 📄 index.html              # Login/Signup page
-├── 📄 home.html               # Main application
-├── 📄 admin.html              # Admin dashboard
-├── 📄 style.css               # Styles
-├── 📄 script.js               # Frontend logic
+├── index.html              # Login/Signup page
+├── home.html               # Main application
+├── admin.html              # Admin dashboard
+├── style.css               # Styles
+├── script.js               # Frontend logic
 │
-├── 📁 images/                 # Assets
-├── 📁 bootstrap-4.3.1-dist/   # Bootstrap
+├── images/                 # Assets
+├── bootstrap-4.3.1-dist/   # Bootstrap
 │
-├── 📁 chatbot_backend/        # Lambda backend
-│   ├── 📄 app.py              # Lambda handler
-│   ├── 📄 requirements.txt    # Dependencies
-│   ├── 📄 Dockerfile          # Container config
-│   ├── 📄 .env                # Environment vars
-│   └── 📄 firebase-credentials.json
+├── chatbot_backend/        # Lambda backend
+│   ├── app.py              # Lambda handler
+│   ├── requirements.txt    # Dependencies
+│   ├── Dockerfile          # Container config
+│   ├── .env                # Environment vars
+│   └── firebase-credentials.json
 │
-└── 📄 README.md
+└── README.md
 ```
 
 ---
 
 ## 👥 User Flows
 
-### New User Registration & Recipe Order
+<table>
+<tr>
+<td width="33%">
+
+### User Registration
 ```mermaid
 graph TD
-    A[Visit Website] --> B[Sign Up]
+    A[Visit] --> B[Sign Up]
     B --> C[Verify Email]
-    C --> D[Login]
-    D --> E[Browse Recipes]
-    E --> F[View Recipe Details]
-    F --> G[Order Recipe]
-    G --> H[Fill Order Form]
-    H --> I[Submit Order]
+    C --> D[Browse Recipes]
+    D --> E[Order Recipe]
+    E --> F[Submit]
 ```
 
-### Vendor Shop Setup
+</td>
+<td width="33%">
+
+### Vendor Setup
 ```mermaid
 graph TD
-    A[Register as Vendor] --> B[Login]
-    B --> C[Navigate to My Shop]
-    C --> D[Capture GPS Location]
-    D --> E[Enter Shop Details]
-    E --> F[Add Products]
-    F --> G[Upload Photo]
-    G --> H[Submit]
-    H --> I[Appear on Map]
+    A[Register] --> B[Login]
+    B --> C[My Shop]
+    C --> D[Add Location]
+    D --> E[Enter Details]
+    E --> F[Live on Map]
 ```
 
-### Chatbot Interaction
+</td>
+<td width="33%">
+
+### Chatbot Flow
 ```mermaid
 graph TD
-    A[Open Chatbot] --> B[Type Question]
-    B --> C[Send to Lambda]
-    C --> D[Verify Token]
-    D --> E[Query Vector DB]
-    E --> F[Get Context]
-    F --> G[Call LLM]
-    G --> H[Generate Response]
-    H --> I[Display Answer]
+    A[Open Chat] --> B[Ask Question]
+    B --> C[Lambda]
+    C --> D[Vector DB]
+    D --> E[LLM]
+    E --> F[Response]
 ```
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Firebase Firestore Collections
 ```
@@ -435,7 +440,7 @@ orders/
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions welcome! Here's how:
 
@@ -447,24 +452,13 @@ Contributions welcome! Here's how:
 
 ---
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-## 👨‍💻 Contact
-
-**Your Name**  
-📧 Email: your.email@example.com  
-🔗 LinkedIn: [your-linkedin](https://linkedin.com/in/your-profile)  
-🐙 GitHub: [yourusername](https://github.com/yourusername)
-
-**Project Link:** [https://github.com/yourusername/vendor-veggie-vittles](https://github.com/yourusername/vendor-veggie-vittles)
-
----
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Firebase for authentication and database
 - AWS for cloud infrastructure
@@ -477,7 +471,5 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 <div align="center">
   
   **⭐ Star this repo if you found it helpful!**
-  
-  Made with ❤️ for local food communities
   
 </div>
